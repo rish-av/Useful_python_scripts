@@ -1,10 +1,44 @@
 import matplotlib.pyplot as plt
-from matplotlib.pyplot import title
+from matplotlib import rcParams
 import numpy as np
+
+#for LaTex font
+rcParams['font.family'] = 'DejaVu Serif'
+
+
+
+def _plot_data(data_listx,data_listy,styles,labels,xlabel,ylabel):
+    #define figure size here
+    f = plt.figure()
+    ax = plt.subplot(111)
+
+    # Hide the right and top spines
+    ax.spines['right'].set_visible(False)
+    ax.spines['top'].set_visible(False)
+
+    ax.yaxis.set_ticks_position('left')
+    ax.xaxis.set_ticks_position('bottom')
+
+     #you can define the x separation here, here it is 1.0 & set limits
+    plt.xticks(np.arange(np.min(data_listx), np.max(data_listx)+1, 1.0))
+
+    for datax,datay,style,label in zip(data_listx,data_listy,styles,labels):
+        ax.plot(datax,datay,style,label=label)
+
+    # plt.xlim(0,6)
+    # plt.ylim(0,10)
+    plt.xlabel(xlabel)
+    plt.ylabel(ylabel)
+    plt.legend()
+    return f
+
+
+
 
 #for number of rows/columns greater than 1,
 #example terminology: matrix[0][0] corresponds to left top image
 #all figs are of same size
+
 def _plot_matrix(matrix,title_matrix,figsize=5,big_title="Images"):
     shape = matrix.shape
     h,w = shape[0],shape[1]
@@ -14,7 +48,7 @@ def _plot_matrix(matrix,title_matrix,figsize=5,big_title="Images"):
     for i in range(h):
         for j in range(w):
             # if you want a math operation on matrix[i][j], that can be done here
-            ax[i,j].plot(matrix[i][j],'r--')
+            ax[i,j].plot(matrix[i][j])
             ax[i,j].title.set_text(title_matrix[i][j])
     return ax
 
@@ -49,3 +83,15 @@ def _plot_subplots_single_image(images,plot_align='horizontal',title="Images",fi
 
 def _save_fig(figure):
     plt.savefig(figure)
+
+
+x = np.random.randn(10)
+y = np.array([i for i in range(10)])
+data_y = [np.cos(x),np.sin(x),np.tan(x)]
+data_x = [y,y,y]
+styles = ['g','r--','b']
+label = ['cos','sin','tan']
+
+f = _plot_data(data_x,data_y,styles,label,"Input","Trig_val")
+
+f.savefig('check.pdf')
