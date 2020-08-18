@@ -1,9 +1,11 @@
 import matplotlib.pyplot as plt
-from matplotlib import rcParams
 import numpy as np
 
 #for LaTex font
-rcParams['font.family'] = 'DejaVu Serif'
+plt.rcParams.update({
+    "text.usetex": True,
+    "font.family": "serif",
+    "font.sans-serif": ["Helvetica"]})
 
 
 
@@ -89,9 +91,9 @@ x = np.random.randn(10)
 y = np.array([i for i in range(10)])
 data_y = [np.cos(x),np.sin(x),np.tan(x)]
 data_x = [y,y,y]
-styles = ['g','r--','b']
+styles = ['g--','r--','b--']
 label = ['cos','sin','tan']
 
-f = _plot_data(data_x,data_y,styles,label,"Input","Trig_val")
+f = _plot_data(data_x,data_y,styles,label,"Input","Trigonometric Value")
 
 f.savefig('check.pdf')
