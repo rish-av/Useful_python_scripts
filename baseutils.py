@@ -4,6 +4,7 @@ import torch
 import torch.utils.data as data
 from torch.utils.data.sampler import SubsetRandomSampler
 import numpy as np
+from os.path import join
 
 
 def _get_optimizer(net,lr=0.0001,weight_decay=0.0):
@@ -14,14 +15,14 @@ def _get_optimizer(net,lr=0.0001,weight_decay=0.0):
     return torch.optim.Adam(net.parameters(),lr=lr,weight_decay=weight_decay)
 
 
-def get_summary_writer():
+def get_summary_writer(rootdir):
 
-    return SummaryWriter(get_log_dir())
+    return SummaryWriter(join(rootdir,get_log_dir()))
 
 
 def get_log_dir():
     '''
-    New dir at everyrun according to the time.
+    New log dir at every run according to the time at that point in time.
     '''
     now = datetime.datetime.now()
     return "logs/run-%d-%d-%d-%d-%d-%d"%(now.year,now.month,now.day,now.hour,now.minute,now.second)
